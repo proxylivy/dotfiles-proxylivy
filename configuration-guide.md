@@ -286,6 +286,8 @@ This is a life-changer for app like lf, all is about context ^^
 - `xdg-mime default mpv.desktop video/mpeg`
 - `xdg-mime default mpv.desktop video/quicktime`
 - `xdg-mime default mpv.desktop audio/ogg`
+- `xdg-mime default mpv.desktop audio/x-wav`
+- `xdg-mime default mpv.desktop audio/flac`
 
 ## SDDM
 ### Installation
