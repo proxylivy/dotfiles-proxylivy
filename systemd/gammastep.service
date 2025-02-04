@@ -1,12 +1,15 @@
 [Unit]
 Description=Display colour temperature adjustment
-#PartOf=display-manager.target
-#After=display-manager.target
+PartOf=graphical-session.target
+After=graphical-session.target
+Requires=graphical-session.target
+StartLimitBurst=10
+StartLimitIntervalSec=30s
 
 [Service]
-ExecStart=/usr/bin/gammastep -c Gammastep-Config-File
+ExecStart=/usr/bin/gammastep -c ~/.config/gammastep/gammastep.config
 Restart=on-failure
-RestartSec=3
+RestartSec=5s
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target
