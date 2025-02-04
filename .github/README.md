@@ -133,6 +133,11 @@ SDDM work with /etc/sddd.conf.d/sddm.conf with the [Tokyo Night Theme](https://a
     └── theme.conf
 ```
 
+Systemd User
+```
+.config/systemd/user/
+└── gammastep.service
+```
 
 TODO
 - [ ] Learn How to use ewww
