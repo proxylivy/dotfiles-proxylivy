@@ -45,6 +45,8 @@ iwctl station "station" connect "Your\ SSID"
 
 <details>
    <summary><b>Legacy Bios (MBR)</b></summary>
+
+QUICK NOTE: IF YOU HAVE > 1 Disk, only the boot disk need to be MBR, the rest can be GPT, because the OS manage that, BIOS CHIPs only need boot disk as MBR ^^
    
 > Partitions
 ```
@@ -116,7 +118,7 @@ mount /dev/device1 -t vfat /mnt/boot/
 
 > Install with pacstrap
 ```
-pacstrap /mnt linux linux-firmware linux-headers networkmanager grub wpa_supplicant base base-devel intel-ucode efibootmgr os-prober ntfs-3g dosfstools mtools sbsigntools sbctl efitools fish micro git
+pacstrap /mnt linux linux-firmware-intel linux-firmware-atheros linux-firmware-broadcom linux-firmware-realtek linux-headers networkmanager grub wpa_supplicant base base-devel intel-ucode efibootmgr os-prober ntfs-3g dosfstools mtools sbsigntools sbctl efitools fish micro git
 ```
 
 > Create Fstab
