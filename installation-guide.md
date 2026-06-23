@@ -118,7 +118,7 @@ mount /dev/device1 -t vfat /mnt/boot/
 
 > Install with pacstrap
 ```
-pacstrap /mnt linux linux-firmware-intel linux-firmware-atheros linux-firmware-broadcom linux-firmware-realtek linux-headers networkmanager grub wpa_supplicant base base-devel intel-ucode efibootmgr os-prober ntfs-3g dosfstools mtools sbsigntools sbctl efitools fish micro git
+pacstrap /mnt linux linux-firmware-intel linux-firmware-atheros linux-firmware-broadcom linux-firmware-realtek linux-headers networkmanager grub wpa_supplicant base base-devel intel-ucode efibootmgr os-prober ntfs-3g dosfstools mtools sbsigntools sbctl efitools fish micro git openssh
 ```
 
 > Create Fstab
@@ -200,8 +200,19 @@ sudo sbctl status
 > Make Internet Works
 Note: Next you need to connect to wifi with `nmtui`, ethernet just work
 ```
-sudo systemctl enable NetworkManager.service
+sudo systemctl enable NetworkManager.service sshd.service
 ```
+
+> Umount Partitions
+Note: Before reboot, disconnect Any USB Device, some bios get ultra slow down in init for some reason
+```
+exit
+umount -R /mnt
+reboot
+```
+
+# First Startup
+Quick Note: Congrats!!, now with the fun part, customization.
 
 > Spanish Mode
 ```
@@ -219,20 +230,6 @@ timedatectl set-ntp true
 sudo hwclock --systohc --utc
 timedatectl status
 ```
-
-
-
-
-> Umount Partitions
-Note: Before reboot, disconnect Any USB Device, some bios get ultra slow down in init for some reason
-```
-exit
-umount -R /mnt
-reboot
-```
-
-# First Startup
-Quick Note: Congrats!!, now with the fun part, customization.
 
 
 ## Repo Config
