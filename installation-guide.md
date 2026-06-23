@@ -178,7 +178,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot/ --bootloader-id=GRUB --m
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-### Create keys with sbctl
+### Create keys with sbctl (Only UEFI)
 > enroll-keys dont work because [Acer Bios](https://wiki.archlinux.org/title/Acer_Aspire_E5-575) is weird, i still dont know how to make work right, but its worth it
 ```
 sudo sbctl status
@@ -186,7 +186,7 @@ sudo sbctl create-keys
 sudo sbctl enroll-keys -m
 ```
 
-### Signing
+### Signing (Only UEFI)
 > Note: Can be automaticed with `sbctl verify | sed 's/✗ /sbctl sign -s /e'`
 ```
 sudo sbctl verify
@@ -196,6 +196,32 @@ sudo sbctl sign -s /boot/grub/x86_64-efi/core.efi
 sudo sbctl sign -s /boot/vmlinuz-linux
 sudo sbctl status
 ```
+
+> Make Internet Works
+Note: Next you need to connect to wifi with `nmtui`, ethernet just work
+```
+sudo systemctl enable NetworkManager.service
+```
+
+> Spanish Mode
+```
+localectl set-x11-keymap latam
+localectl set-locale LANG=es_CL.UTF-8
+```
+
+> Configure Local Time Zone 
+> see System Time in Archwiki for more [info](https://wiki.archlinux.org/title/System_time)
+```
+timedatectl list-timezones
+ln -sf /usr/share/zoneinfo/"Zone"/"Sub-Zone" /etc/localtime
+timedatectl set-timezone "Zone"/"Sub-Zone"
+timedatectl set-ntp true
+sudo hwclock --systohc --utc
+timedatectl status
+```
+
+
+
 
 > Umount Partitions
 Note: Before reboot, disconnect Any USB Device, some bios get ultra slow down in init for some reason
@@ -208,28 +234,6 @@ reboot
 # First Startup
 Quick Note: Congrats!!, now with the fun part, customization.
 
-## Make Internet Works
-Note: Next you need to connect to wifi with `nmtui`, ethernet just work
-```
-sudo systemctl enable NetworkManager.service bluetooth.service --now
-```
-
-## Spanish Mode
-```
-localectl set-x11-keymap latam
-localectl set-locale LANG=es_CL.UTF-8
-```
-
-## Configure Local Time Zone 
-> see System Time in Archwiki for more [info](https://wiki.archlinux.org/title/System_time)
-```
-timedatectl list-timezones
-ln -sf /usr/share/zoneinfo/"Zone"/"Sub-Zone" /etc/localtime
-timedatectl set-timezone "Zone"/"Sub-Zone"
-timedatectl set-ntp true
-sudo hwclock --systohc --utc
-timedatectl status
-```
 
 ## Repo Config
 - Need Enable [ChaoticAUR](https://github.com/chaotic-aur) and [multilib](https://wiki.archlinux.org/title/Official_repositories) repo
@@ -257,23 +261,18 @@ yay -S --needed - < .package-backup/aurpkglist.txt
 
 ## Font
 ```
-sudo pacman -S wqy-zenhei ttf-hanazono ttf-baekmuk ttf-jetbrains-mono ttf-hack-nerd ttf-dejavu lib32-fontconfig ttf-joypixels
+sudo pacman -S wqy-zenhei ttf-baekmuk ttf-jetbrains-mono ttf-hack-nerd ttf-dejavu lib32-fontconfig
 ```
 
 ## All Package
 > Note: recomend to open weston to copy and paste 
 ```
-sudo pacman -S virt-manager qemu virtualbox docker docker-compose wireshark-cli wireshark-qt adbmanager sane sane-airscan avahi cups usbmuxd mpd mpv wf-recorder gvfs gvfs-mtp xdg-user-dirs dialog xf86-input-libinput bat micro kitty nwg-look nwg-displays imagemagick python-pygments ghostscript libheif libraw libwmf dvjulibre qt5-base qt6-base qt5-svg qt5-wayland qt6-wayland catfish tumbler thunar-volman thunar-archive-plugin xarchiver thunar-media-tags-plugin ffmpegthumbnailer libgsf libgepub libopenraw lha lrzip lzip lzop p7zip unarj unrar unzip zip tool colordiff diff-so-fancy git-delta glow highlight jq mdcat perl-image-exiftool source-highlight cdrtools html2text antiword odt2txt catdoc cliphist wl-clipboard wlogout grim slurp swappy wf-recorder hyprpicker brightnessctl playerctl kitty thunar
-```
-
-## Package env
-```
-sudo pacman -S clutter libdecor glfw glew
+sudo pacman -S virt-manager qemu virtualbox docker docker-compose wireshark-cli wireshark-qt sane sane-airscan avahi cups usbmuxd mpd mpv wf-recorder gvfs gvfs-mtp xdg-user-dirs dialog xf86-input-libinput bat micro kitty nwg-look nwg-displays imagemagick python-pygments ghostscript libheif libraw libwmf qt5-base qt6-base qt5-svg qt5-wayland qt6-wayland catfish tumbler thunar-volman thunar-archive-plugin xarchiver thunar-media-tags-plugin ffmpegthumbnailer libgsf libgepub libopenraw lha lrzip lzip lzop p7zip unarj unrar unzip zip colordiff diff-so-fancy git-delta glow highlight jq perl-image-exiftool source-highlight cdrtools html2text antiword odt2txt catdoc cliphist wl-clipboard grim slurp swappy wf-recorder hyprpicker brightnessctl playerctl kitty thunar
 ```
 
 ## Wine package
 ```
-sudo pacman -S --needed giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader lib32-acl lib32-libpcap lib32-libnl lib32-gettext dosbox lib32-gst-plugins-base lib32-gst-plugins-good lib32-pcsclite lib32-sdl2 unixodbc lib32-libwebp lib32-libid3tag
+sudo pacman -S --needed giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader lib32-acl lib32-libpcap lib32-libnl lib32-gettext dosbox lib32-pcsclite lib32-sdl2 unixodbc lib32-libwebp lib32-libid3tag
 ```
 
 ## Yay Package
