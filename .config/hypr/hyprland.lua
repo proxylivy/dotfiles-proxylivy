@@ -1,0 +1,8 @@
+require("env")
+require("variable")
+require("windowrules")
+require("bind")
+require("monitors")
+-- require("workspaces")
+require("exec")
+-- require("colors")
